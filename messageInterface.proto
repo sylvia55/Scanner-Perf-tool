@@ -1,0 +1,38 @@
+// This .proto file is designed for data serialization between delegator and scanner
+
+// This struct is used for big transporting unit, such as, mail body, attachment or others
+message BlockUnit {
+  
+  // This field represents which part is encoded, body, attachment or others 
+  optional string partType = 1;
+  
+  // This filed represents original encoding type, "text/plain" or others
+  optional string encodingType = 2;
+  
+  // This filed represents block attribute
+  optional string blockDescription = 3;
+ 
+  // Any arbitrary sequence of bytes, unit content
+  optional bytes content = 4;
+  
+  // Reserved string fields
+  optional uint32 action = 5;
+  
+  // Reserved numeric fields
+  repeated string strReserves = 6;
+}
+
+// Basic transporting unit, such as, one mail
+message TransportUnit {
+  
+  // User customized field, such as, "from:marc_du@trendmicro.com.cn", for adapter of scanner and delegators 
+  repeated string strItemList = 1;
+   
+  // Refer to definition of BlockUnit
+  repeated BlockUnit blockItemList = 2;
+}
+
+// Toplevel data transporting interface, this interface can load multi-TransportUnit, such as, one or more mails
+message DataCollection {
+  repeated TransportUnit units = 1;
+}
